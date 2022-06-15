@@ -4,15 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ce6565d7-2947-43bd-9f30-b17c6e1f968a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Codelist.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plotly.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/R_eda.R" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Model.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Model.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-    </list>
+    <list default="true" id="ce6565d7-2947-43bd-9f30-b17c6e1f968a" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -120,7 +112,7 @@
       <workItem from="1652108534026" duration="530000" />
       <workItem from="1652109074635" duration="565000" />
       <workItem from="1652109851876" duration="1872000" />
-      <workItem from="1652187315426" duration="3480000" />
+      <workItem from="1652187315426" duration="3487000" />
     </task>
     <servers />
   </component>
