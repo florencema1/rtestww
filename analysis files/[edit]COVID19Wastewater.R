@@ -1,3 +1,9 @@
+# ------------------------------------------
+# title: Modified code of COVID19Waterwater Package
+# reference: COVID-19 wastewater epidemiology: a model to estimate infected populations
+# original author: Christopher S McMahan et al.
+# ref website: https://github.com/scwatson812/COVID19WastewaterModel
+# ------------------------------------------
 library(quantreg)
 library(splines)
 

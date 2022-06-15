@@ -2,7 +2,7 @@
 # title: Simulation of COVID-19 using SEIR model and relationship with
 #         wastewater RNA level
 # ------------------------------------------
-
+library(tidyverse)
 library(data.table)
 table <- MC.COVID19.wastewater(Sim=30,
                       Tm=90,
@@ -35,8 +35,6 @@ est_values5 <- table$y %*% table$coef5
 est_values <- as.data.frame(cbind(table$x, est_values1, est_values2, est_values3, est_values4, est_values5))
 names(est_values) <- c("x", "y1", "y2", "y3", "y4", "y5")
 
-table$mod
-
 # Export results
 write.csv(table,"WasteWater_SEIR.csv", row.names=FALSE)
 write.csv(est_values,"model_estimates.csv", row.names=FALSE)
@@ -48,4 +46,10 @@ mdf <- est_values %>% pivot_longer(y1:y5) %>%
 
 # Plot the smoothed curves 
 ggplot(data=mdf, aes(x=x, y=value, group=name, color=name)) +
-  geom_line()
+  geom_line() +
+  labs(title= "Estimated active case number and RNA level at N=60,000",
+       col="Percentile") + # legend title
+  scale_color_manual(labels = c("2.5%", "12.5%", "50%", "87.5%", "97.5%"), 
+                     values = c("yellow", "orange", "red", "orange", "yellow")) + # edit legend labels
+  xlab("Gene copies/L") +
+  ylab("Number of cases")

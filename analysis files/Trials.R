@@ -1,8 +1,6 @@
 # ------------------------------------------
 # title: Transforming RNA level into case number
 # ------------------------------------------
-
-
 library(tidyverse)
 
 # Read in weekly RNA level for ALLA site
@@ -29,10 +27,13 @@ bx <- bs(data$mean_gene, df=10)
 est_med <- cbind(1,bx) %*% table$coef3 #coef 3 corresponds to median
 
 # Create dataframe for plotting
-plotdf <- as.data.frame(cbind(week = data$week, 
+alla_est <- as.data.frame(cbind(week = data$week, 
                               rna  = data$mean_gene)) %>%
-          cbind(activecase=est_med) %>%
+          cbind(activecase=est_med) 
+plotdf <- alla_est%>%
           pivot_longer('rna':'activecase')
+
+write.csv(alla_est,"alla_est.csv", row.names=FALSE)
 
 ggplot(plotdf, aes(x=week, y=value, group=name, color=name)) + 
   geom_line() +
@@ -42,14 +43,23 @@ ggplot(plotdf, aes(x=week, y=value, group=name, color=name)) +
                      values = c("#F8766D", "#619CFF")) # edit legend labels
 
 # Use epyestim
+library(EpiEstim)
+res_parametric_si <- estimate_R(alla_est$activecase, 
+                                method="parametric_si",
+                                config = make_config(list(
+                                  mean_si = 2.6, 
+                                  std_si = 1.5))
+)
 
+head(res_parametric_si$R)
+
+# Plot results
+plot(res_parametric_si, legend = FALSE)
 
 # Line chart showing relationship between R estimate and RNA level
-ggplot(data, aes(x=mean_gene, y=meanr)) +
-  geom_line()
+# ggplot(data, aes(x=mean_gene, y=meanr)) +
+#   geom_line()
 
 # Scatterplot
-ggplot(data, aes(x=mean_gene, y=meanr)) +
-  geom_point()
-
-case[data$mean_gene]
+# ggplot(data, aes(x=mean_gene, y=meanr)) +
+#   geom_point()
