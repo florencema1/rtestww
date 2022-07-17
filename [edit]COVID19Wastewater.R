@@ -1,5 +1,5 @@
 # ------------------------------------------
-# title: Modified code of COVID19Waterwater Package
+# title: Modified code of COVID19Wastewater Package
 # reference: COVID-19 wastewater epidemiology: a model to estimate infected populations
 # original author: Christopher S McMahan et al.
 # ref website: https://github.com/scwatson812/COVID19WastewaterModel
@@ -15,7 +15,8 @@ SEIR.model<-function (init, beta.s, gamma.e, gamma.i, times) {
       dE <- beta.s * S * I - gamma.e * E
       dI <- gamma.e * E - gamma.i * I
       dR <- gamma.i * I
-      return(list(c(dS, dE, dI, dR)))
+      dC <- beta.s * S * I
+      return(list(c(dS, dE, dI, dR, dC)))
     })
   }
   parameters <- c(beta.s = beta.s, gamma.e = gamma.e, gamma.i = gamma.i)
@@ -26,9 +27,10 @@ SEIR.model<-function (init, beta.s, gamma.e, gamma.i, times) {
 }
 
 plot.func <- function (Tm, beta.s, gamma.e, gamma.i, p, Y, X) {
-  init <- c(S = 1 - p, E = p/2, I = p/2, R = 0)
+  init <- c(S = 1 - p, E = p/2, I = p/2, R = 0, C = 0)
   mod <- SEIR.model(init, beta.s = beta.s, gamma.e = gamma.e, gamma.i, 1:Tm)
-  matplot(x = 1:Tm, y = mod, type = "l", xlab = "Time", ylab = "Susceptible, Exposed, Infectious, and Recovered", main = "SEIR Model", lwd = 1, lty = 1, bty = "l", col = 1:4)
+  matplot(x = 1:Tm, y = mod, type = "l", xlab = "Time", ylab = "Susceptible, Exposed, Infectious, and Recovered (and culm cases)", 
+          main = "SEIR Model", lwd = 1, lty = 1, bty = "l", col = 1:5)
   xmax <- quantile(X, 0.975)
   matplot(x = 1:Tm, y = t(X), ylim = c(0, xmax), type = "p", xlab = "Time", ylab = "RNA levels", main = "", pch = 1, col = 1)
   Yv <- as.vector(Y)
@@ -67,17 +69,20 @@ plot.func <- function (Tm, beta.s, gamma.e, gamma.i, p, Y, X) {
   abline(4000, 0, lty = "dashed", col = "gray")
   abline(4500, 0, lty = "dashed", col = "gray")
   abline(5000, 0, lty = "dashed", col = "gray")
-  return(list(x=sort(Xv), y=cbind(1, BX[order(Xv), ]), 
-              coef1=coef(fit1),
-              coef2=coef(fit2), 
-              coef3=coef(fit3), 
-              coef4=coef(fit4), 
-              coef5=coef(fit5),
-              mod))
+  
+  return(list(x=sort(Xv), 
+              y=cbind(1, BX[order(Xv), ]), 
+              coef1=predict(loess(cbind(1, BX[order(Xv), ]) %*% coef(fit1)~sort(Xv))),
+              coef2=predict(loess(cbind(1, BX[order(Xv), ]) %*% coef(fit2)~sort(Xv))),
+              coef3=predict(loess(cbind(1, BX[order(Xv), ]) %*% coef(fit3)~sort(Xv))),
+              coef4=predict(loess(cbind(1, BX[order(Xv), ]) %*% coef(fit4)~sort(Xv))),
+              coef5=predict(loess(cbind(1, BX[order(Xv), ]) %*% coef(fit5)~sort(Xv))),
+              model=mod,
+              rna=t(X)))
 }
 
 Sewage.sim<-function (Tm, beta.s, gamma.e, gamma.i, p, N, mu.V.max, sd.V.max, mu.V.20, sd.V.20, T.V.max, Ts, Temp, mu.tau0, sd.tau0, mu.Q, sd.Q, G.mean, G.sd) {
-  init <- c(S = 1 - p, E = p/2, I = p/2, R = 0)
+  init <- c(S = 1 - p, E = p/2, I = p/2, R = 0, C = 0)
   mod <- SEIR.model(init, beta.s = beta.s, gamma.e = gamma.e, gamma.i, 1:Tm)
   S <- mod[, 1]
   I <- mod[, 3]

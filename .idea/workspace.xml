@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ce6565d7-2947-43bd-9f30-b17c6e1f968a" name="Changes" comment="" />
+    <list default="true" id="ce6565d7-2947-43bd-9f30-b17c6e1f968a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/analysis files/ALLA pheno estimates.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/rtestww.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/rtestww.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Presentation 1.pptx" beforeDir="false" afterPath="$PROJECT_DIR$/Presentation 1.pptx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis files/Data Wrangling EDA.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/analysis files/Data Wrangling EDA.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis files/Sim.R" beforeDir="false" afterPath="$PROJECT_DIR$/analysis files/Sim.R" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis files/[edit]COVID19Wastewater.R" beforeDir="false" afterPath="$PROJECT_DIR$/analysis files/[edit]COVID19Wastewater.R" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -113,6 +120,7 @@
       <workItem from="1652109074635" duration="565000" />
       <workItem from="1652109851876" duration="1872000" />
       <workItem from="1652187315426" duration="3487000" />
+      <workItem from="1656681319502" duration="15000" />
     </task>
     <servers />
   </component>
