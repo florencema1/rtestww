@@ -134,4 +134,3 @@ compareTraces <- function(Re_i, Re_j){
   
   return(c(rmse, coverage, mape))
 }
-

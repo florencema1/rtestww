@@ -5,53 +5,35 @@
 library(tidyverse)
 library(data.table)
 
-# Population has to be over a certain value?
-pop <- c(50000,70000,80000)
+population <- read.csv("/Users/FM/Public/HDS/Summer Project/wastewater_r_estimation/Population Over Time.csv")
+population_estimate <- population %>% 
+  group_by(Region) %>%
+  summarise(max_pop = max(catchment_population_ons_mid_2019))
 
 # Define empty list as output
 table <- list()
 
-# for(j in 1:length(pop)) {
-# table[[j]] <- MC.COVID19.wastewater(Sim=10,
-#                       Tm=90,
-#                       beta.s= 1,
-#                       gamma.e = 0.2,
-#                       gamma.i = 0.1,
-#                       p = 0.05,
-#                       N = pop[j],
-#                       mu.V.max = 7.6,
-#                       sd.V.max = 0.8,
-#                       mu.V.20 = 3.5,
-#                       sd.V.20 = 0.35,
-#                       T.V.max = 5,
-#                       Ts = 4,
-#                       Temp = 18,
-#                       mu.tau0 = 1,
-#                       sd.tau0 = 0.1,
-#                       mu.Q = 2.5,
-#                       sd.Q = 0.15,
-#                       G.mean = 128,
-#                       G.sd = 10
-# )
-# }
+# Set plot area size to avoid "figure margins too large" error
+graphics.off()
+par(mar=c(1,1,1,1))
 
-# Single population for testing
-table[[1]] <- MC.COVID19.wastewater(Sim=10,
-                      Tm=90,
-                      beta.s= 1,
+# Single population (South West) for testing
+table[[1]] <- MC.COVID19.wastewater(Sim=100, # number of simulations
+                      Tm=153, # duration of study
+                      beta.s= 0.2, # beta derived from R0 and gamma.i
                       gamma.e = 0.2,
                       gamma.i = 0.1,
-                      p = 0.05,
-                      N = 62500,
+                      p = 0.0001, # proportion of popn that is initially infectious 
+                      N = 1000000,
                       mu.V.max = 7.6,
                       sd.V.max = 0.8,
                       mu.V.20 = 3.5,
                       sd.V.20 = 0.35,
                       T.V.max = 5,
-                      Ts = 4,
-                      Temp = 18,
-                      mu.tau0 = 1,
-                      sd.tau0 = 0.1,
+                      Ts = 1.1,
+                      Temp = 16,
+                      mu.tau0 = 130,
+                      sd.tau0 = 25,
                       mu.Q = 2.5,
                       sd.Q = 0.15,
                       G.mean = 128,
@@ -59,11 +41,11 @@ table[[1]] <- MC.COVID19.wastewater(Sim=10,
 )
 
 # Extract values for 95% CI, 75%CI and median of case numbers estimated from RNA level
-# est_values1 <- table[[1]]$y %*% table[[1]]$coef1
-# est_values2 <- table[[1]]$y %*% table[[1]]$coef2
-# est_values3 <- table[[1]]$y %*% table[[1]]$coef3
-# est_values4 <- table[[1]]$y %*% table[[1]]$coef4
-# est_values5 <- table[[1]]$y %*% table[[1]]$coef5
+est_values1 <- table[[1]]$y %*% table[[1]]$coef1
+est_values2 <- table[[1]]$y %*% table[[1]]$coef2
+est_values3 <- table[[1]]$y %*% table[[1]]$coef3
+est_values4 <- table[[1]]$y %*% table[[1]]$coef4
+est_values5 <- table[[1]]$y %*% table[[1]]$coef5
 rna_time <- table[[1]]$rna
 c_compartment <- table[[1]]$model$C
 i_compartment <- table[[1]]$model$I
@@ -124,21 +106,23 @@ write.csv(plot,"lines.csv", row.names=FALSE)
 ############################################################################
 # Deconvolution
 
-deconv_result <- data.frame()
-result <- data.frame()
-  new_deconv_result = deconvolveIncidence(clean_data, 
-                                          incidence_var = gene,
-                                          getCountParams('incubation'), 
-                                          getCountParams('benefield'),
-                                          smooth_param = TRUE, n_boot = 50) %>% #n_boot = 1000 in paper
-    mutate(data_type = gene)
-  
-  new_result = getReBootstrap(new_deconv_result)
-  new_result = new_result %>%
-    mutate(data_type = gene)
-  new_result['variable'] = gene
-  
-  deconv_result = bind_rows(deconv_result, new_deconv_result)
-  result = bind_rows(result, new_result)
-  
-}
+# deconv_result <- data.frame()
+# result <- data.frame()
+#   new_deconv_result = deconvolveIncidence(clean_data, 
+#                                           incidence_var = gene,
+#                                           getCountParams('incubation'), 
+#                                           getCountParams('benefield'),
+#                                           smooth_param = TRUE, n_boot = 50) %>% #n_boot = 1000 in paper
+#     mutate(data_type = gene)
+#   
+#   new_result = getReBootstrap(new_deconv_result)
+#   new_result = new_result %>%
+#     mutate(data_type = gene)
+#   new_result['variable'] = gene
+#   
+#   deconv_result = bind_rows(deconv_result, new_deconv_result)
+#   result = bind_rows(result, new_result)
+#   
+# }
+
+
