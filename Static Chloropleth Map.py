@@ -9,8 +9,8 @@ import plotly.io as pio
 # Show graph in a new browser
 pio.renderers.default ="browser"
 
-data = pd.read_csv("/Users/FM/Public/HDS/Summer Project/local files/test chloro.csv")
-geo_world = json.load(open('/Users/FM/Public/HDS/Summer Project/local files/NHS_BUC.geojson', 'r'))
+data = pd.read_csv("/Users/FM/Public/HDS/Summer Project/wastewater_r_estimation/Data/test chloro.csv")
+geo_world = json.load(open('/Users/FM/Public/HDS/Summer Project/wastewater_r_estimation/Data/NHS_BUC.geojson', 'r'))
 
 state_id_map = {}
 for feature in geo_world['features']:

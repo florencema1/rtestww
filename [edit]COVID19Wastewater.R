@@ -69,14 +69,17 @@ plot.func <- function (Tm, beta.s, gamma.e, gamma.i, p, Y, X) {
   abline(4000, 0, lty = "dashed", col = "gray")
   abline(4500, 0, lty = "dashed", col = "gray")
   abline(5000, 0, lty = "dashed", col = "gray")
-  
+  pred1 <- predict(loess(cbind(1, BX[order(Xv), ]) %*% coef(fit1)~sort(Xv)))
+  pred2 <- predict(loess(cbind(1, BX[order(Xv), ]) %*% coef(fit2)~sort(Xv)))
+  pred3 <- predict(loess(cbind(1, BX[order(Xv), ]) %*% coef(fit3)~sort(Xv)))
+  pred4 <- predict(loess(cbind(1, BX[order(Xv), ]) %*% coef(fit4)~sort(Xv)))
+  pred5 <- predict(loess(cbind(1, BX[order(Xv), ]) %*% coef(fit5)~sort(Xv)))
   return(list(x=sort(Xv), 
-              y=cbind(1, BX[order(Xv), ]), 
-              coef1=predict(loess(cbind(1, BX[order(Xv), ]) %*% coef(fit1)~sort(Xv))),
-              coef2=predict(loess(cbind(1, BX[order(Xv), ]) %*% coef(fit2)~sort(Xv))),
-              coef3=predict(loess(cbind(1, BX[order(Xv), ]) %*% coef(fit3)~sort(Xv))),
-              coef4=predict(loess(cbind(1, BX[order(Xv), ]) %*% coef(fit4)~sort(Xv))),
-              coef5=predict(loess(cbind(1, BX[order(Xv), ]) %*% coef(fit5)~sort(Xv))),
+              output1=pred1,
+              output2=pred2,
+              output3=pred3,
+              output4=pred4,
+              output5=pred5,
               model=mod,
               rna=t(X)))
 }
