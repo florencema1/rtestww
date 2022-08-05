@@ -1,12 +1,13 @@
-###########################################################
-# Function to estimate Re from WW
-# Author: JS Huisman
-###########################################################
-# These are mostly wrapper functions around the 
-# deconvolution and Re estimation functions from 
-# https://github.com/covid-19-Re/shiny-dailyRe
+# ------------------------------------------
+# Candidate number: 211392
+# ------------------------------------------
+# title: Modified code of Deconvolution model
+# source: Wastewater-Based Estimation of the Effective Reproductive Number of SARS-CoV-2
+# original author: Jana S Huisman et al.
+# https://doi.org/10.1289/EHP10050
+# repo: https://github.com/JSHuisman/wastewaterRe
+# ------------------------------------------
 
-###########################################################
 # Delay/Shedding Load Distributions #####
 
 # find gamma parameters from mean/sd of distribution

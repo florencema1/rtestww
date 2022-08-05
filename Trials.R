@@ -1,15 +1,18 @@
-# ------------------------------------------
-# title: Transforming RNA level into case number
-# ------------------------------------------
+# ----------------------------------------------------------------
+# Candidate number: 211392
+# ----------------------------------------------------------------
+# title: SEIR model outputs
+# ----------------------------------------------------------------
 library(tidyverse)
 library(linelist)
 library(EpiEstim)
 
 # Set ggplot theme
-theme_set(theme_bw())
+theme_set(theme_classic())
+
 
 # Read in RNA level
-data <- read.csv("/Users/FM/Public/HDS/Summer Project/wastewater_r_estimation/Linked Data.csv")
+data <- read.csv("/Linked Data.csv")
 data$X <- NULL
 
 real_case <- read.csv("/Users/FM/Public/HDS/Summer Project/local files/region_2022-07-01.csv")
@@ -47,10 +50,17 @@ data$active3 <- predict(loess(model_case_r3$y3~model_case_r3$x), data$gene_copie
 
 # Plot SW
 data_sw <- data %>%
-  filter(region=='south west')
+  filter(region=='south west') %>%
+  select(date, active1, active2, active3)
 
-ggplot(data_sw, aes(x=date, y=active1)) +
-  geom_line()
+plot_active <- data_sw %>% pivot_longer(active1:active3)
+
+ggplot(plot_active, aes(x=date, y=value, group=name, color=name)) +
+  geom_line() +
+  labs(title= "South West Active Case Number (N = 100,000)",
+       col="Percentile") + # legend title
+  scale_color_manual(labels = c("beta 0.15", "beta 0.2", "beta 0.3"), 
+                     values = c("red", "green", "blue")) + # edit legend labels
 
 # Estimate case number from RNA level median
 plot(table[[2]]$x, table[[2]]$coef3)

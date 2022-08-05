@@ -1,8 +1,11 @@
 # ------------------------------------------
-# title: Modified code of COVID19Wastewater Package
-# reference: COVID-19 wastewater epidemiology: a model to estimate infected populations
+# Candidate number: 211392
+# ------------------------------------------
+# title: Modified code of COVID19Wastewater functions
+# source: COVID-19 wastewater epidemiology: a model to estimate infected populations
 # original author: Christopher S McMahan et al.
-# ref website: https://github.com/scwatson812/COVID19WastewaterModel
+# https://doi.org/10.1016/S2542-5196(21)00230-8
+# repo: https://github.com/scwatson812/COVID19WastewaterModel
 # ------------------------------------------
 library(quantreg)
 library(splines)
