@@ -16,8 +16,7 @@ SEIR.model<-function (init, beta.s, gamma.e, gamma.i, times) {
       dE <- beta.s * S * I - gamma.e * E
       dI <- gamma.e * E - gamma.i * I
       dR <- gamma.i * I
-      dC <- beta.s * S * I
-      return(list(c(dS, dE, dI, dR, dC)))
+      return(list(c(dS, dE, dI, dR)))
     })
   }
   parameters <- c(beta.s = beta.s, gamma.e = gamma.e, gamma.i = gamma.i)
@@ -28,9 +27,9 @@ SEIR.model<-function (init, beta.s, gamma.e, gamma.i, times) {
 }
 
 plot.func <- function (Tm, beta.s, gamma.e, gamma.i, p, Y, X) {
-  init <- c(S = 1 - p, E = p/2, I = p/2, R = 0, C = 0)
+  init <- c(S = 1 - p, E = p/2, I = p/2, R = 0)
   mod <- SEIR.model(init, beta.s = beta.s, gamma.e = gamma.e, gamma.i, 1:Tm)
-  matplot(x = 1:Tm, y = mod, type = "l", xlab = "Time", ylab = "Susceptible, Exposed, Infectious, and Recovered (and culm cases)", 
+  matplot(x = 1:Tm, y = mod, type = "l", xlab = "Time", ylab = "Susceptible, Exposed, Infectious, and Recovered", 
           main = "SEIR Model", lwd = 1, lty = 1, bty = "l", col = 1:5)
   xmax <- quantile(X, 0.975)
   matplot(x = 1:Tm, y = t(X), ylim = c(0, xmax), type = "p", xlab = "Time", ylab = "RNA levels", main = "", pch = 1, col = 1)
@@ -86,7 +85,7 @@ plot.func <- function (Tm, beta.s, gamma.e, gamma.i, p, Y, X) {
 }
 
 Sewage.sim<-function (Tm, beta.s, gamma.e, gamma.i, p, N, mu.V.max, sd.V.max, mu.V.20, sd.V.20, T.V.max, Ts, Temp, mu.tau0, sd.tau0, mu.Q, sd.Q, G.mean, G.sd) {
-  init <- c(S = 1 - p, E = p/2, I = p/2, R = 0, C = 0)
+  init <- c(S = 1 - p, E = p/2, I = p/2, R = 0)
   mod <- SEIR.model(init, beta.s = beta.s, gamma.e = gamma.e, gamma.i, 1:Tm)
   S <- mod[, 1]
   I <- mod[, 3]

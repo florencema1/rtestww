@@ -5,67 +5,73 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ce6565d7-2947-43bd-9f30-b17c6e1f968a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.RData" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/rSettings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Data/R_and_growth_rate_time_series_for_publication_v1.0.ods" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Data/all_var_dataset.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Data/cleaned cases.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Data/linked_data.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Data/population_over_time.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Data/r_val_cleaned.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Data/region_2022-07-01.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Data/weighted_r.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/compartmental.R" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ww_rt_linkage.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/xgboost.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Data/all_var (before interpolation).csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Data/newcasesbypublishdate.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Data/newcasesbyspecimendate.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Data/original_summary.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Data/r_before_weights.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Data/wrangled_summary.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deconvolution R from Cases.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Prediction Error Plot (Uni).png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Prediction Error Plot.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/RMSE.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Residuals Plot (Uni).png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Residuals Plot.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SEIR plot combined.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/check.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cleaned summary.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/eda_plots.R" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/normalisation_factor.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/original summary.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/Betas combined.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/Compartmental combined.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/Deconvolution Incidence (Combined).png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/Deconvolution Incidence.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/Deconvolution R (All).png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/Deconvolution R (case vs report).png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/Deconvolution R (ww vs case).png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/Deconvolution R Cases.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/Deconvolution R WW.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/Incidence over time.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/Normalisation Deconvolution.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/RNA over time.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/Rt over time.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/population over time.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.Rhistory" beforeDir="false" afterPath="$PROJECT_DIR$/.Rhistory" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/2_utils_getInfectionIncidence.R" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/3_utils_doReEstimates.R" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dash.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data Wrangling EDA.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/220525_R_and_growth_rate_time_series_for_publication_v1.0.ods" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/9_Regions.geojson" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/9_Regions.qmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/Intersection.geojson" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/Intersection.qmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/NHS_BUC.geojson" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/Region Intersection.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Region Intersection.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/test chloro.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/test chloro_9.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Deconvolution Trial SW Incidence estimate.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/cleaned cases.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/linked_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/linked_data.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/population_over_time.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/r_val_cleaned.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/region_2022-07-01.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/weighted_r.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/weighted_r.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Deconvolution.R" beforeDir="false" afterPath="$PROJECT_DIR$/Deconvolution.R" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Linked Data.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Linked Data_South West.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Population Over Time.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Sim.R" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Static Chloropleth Map.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Trials.R" beforeDir="false" afterPath="$PROJECT_DIR$/Trials.R" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wastewater_R_link.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/XGBoost Models.ipynb" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/[edit]COVID19Wastewater.R" beforeDir="false" afterPath="$PROJECT_DIR$/[edit]COVID19Wastewater.R" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/[edit]wastewater_functions.R" beforeDir="false" afterPath="$PROJECT_DIR$/[edit]wastewater_functions.R" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/all_var_dataset.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/epyestim covid.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ml_utils.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/r_val_cleaned.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/subsets/subset_ee.csv" beforeDir="false" afterPath="$PROJECT_DIR$/subsets/subset_ee.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/subsets/subset_em.csv" beforeDir="false" afterPath="$PROJECT_DIR$/subsets/subset_em.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/subsets/subset_ldn.csv" beforeDir="false" afterPath="$PROJECT_DIR$/subsets/subset_ldn.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/subsets/subset_ne.csv" beforeDir="false" afterPath="$PROJECT_DIR$/subsets/subset_ne.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/subsets/subset_nw.csv" beforeDir="false" afterPath="$PROJECT_DIR$/subsets/subset_nw.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/subsets/subset_se.csv" beforeDir="false" afterPath="$PROJECT_DIR$/subsets/subset_se.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/subsets/subset_sw.csv" beforeDir="false" afterPath="$PROJECT_DIR$/subsets/subset_sw.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/subsets/subset_wm.csv" beforeDir="false" afterPath="$PROJECT_DIR$/subsets/subset_wm.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/subsets/subset_yh.csv" beforeDir="false" afterPath="$PROJECT_DIR$/subsets/subset_yh.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wastewater_functions.R" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/weighted_r.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/compartmental.R" beforeDir="false" afterPath="$PROJECT_DIR$/compartmental.R" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/subsets/subset_ee.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/subsets/subset_em.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/subsets/subset_ldn.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/subsets/subset_ne.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/subsets/subset_nw.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/subsets/subset_se.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/subsets/subset_sw.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/subsets/subset_wm.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/subsets/subset_yh.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ww_rt_linkage.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/ww_rt_linkage.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xgboost.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/xgboost.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Jupyter Notebook" />
+      </list>
+    </option>
   </component>
   <component name="FlaskConsoleOptions" custom-start-script="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))">
     <envs>
@@ -193,16 +199,5 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="jupyter-line">
-          <url>notebook:///Users/FM/Public/HDS/Summer Project/wastewater_r_estimation/ww_rt_linkage.ipynb</url>
-          <line>441</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

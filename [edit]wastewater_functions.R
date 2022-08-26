@@ -1,12 +1,10 @@
-# ------------------------------------------
-# Candidate number: 211392
-# ------------------------------------------
-# title: Modified code of Deconvolution model
-# source: Wastewater-Based Estimation of the Effective Reproductive Number of SARS-CoV-2
-# original author: Jana S Huisman et al.
+# ----------------------------------------------------------------
+# Title: Deconvolution model - Adaptation
+# Source: Wastewater-Based Estimation of the Effective Reproductive Number of SARS-CoV-2
+# Original author: Jana S Huisman et al.
 # https://doi.org/10.1289/EHP10050
 # repo: https://github.com/JSHuisman/wastewaterRe
-# ------------------------------------------
+# ----------------------------------------------------------------
 
 # Delay/Shedding Load Distributions #####
 
@@ -29,7 +27,7 @@ getCountParams <- function(obs_type){
   switch(obs_type,
          incubation = getGammaParams(5.3, 3.2),
          zero = list(shape = 0, scale = 0),
-         #confirmed = getGammaParams(5.5, 3.8),
+         # <- ed = getGammaParams(5.5, 3.8),
          confirmed_zh = getGammaParams(2.83, 2.96),
          confirmed_cali = getGammaParams(4.51, 3.16),
          death = getGammaParams(15.0, 6.9),

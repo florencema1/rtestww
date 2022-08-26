@@ -1,19 +1,23 @@
 # ------------------------------------------
-# title: Simulation of COVID-19 using SEIR model and relationship with
-#         wastewater RNA level
+# title: Simulation of COVID-19 using modified SEIR model
+#        from COVID19WastewaterModel by McMahan et. al
+# https://doi.org/10.1016/S2542-5196(21)00230-8
+# repo: https://github.com/scwatson812/COVID19WastewaterModel
 # ------------------------------------------
 
-# install.packages('writexl')
 library(tidyverse)
 library(data.table)
 library(writexl)
-
+library(patchwork)
 
 # Define empty list as output
 table <- list()
 
 # Set plot margins to avoid "figure margins too large" error
 par(mar=c(4,4,4,2))
+
+# Set themes for plots
+theme_set(theme_minimal())
 
 # Beta = 0.15 i.e. R0 = 1.5
 table[[1]] <- MC.COVID19.wastewater(Sim=100,
@@ -87,85 +91,111 @@ table[[3]] <- MC.COVID19.wastewater(Sim=100,
 
 # Scatterplots of RNA over time for beta = 0.15/0.2/0.3
 ### Add wastewater RNA level on day (t-7)
-# Convert RNA level to a single column first 
-rna_r1_long <- unlist(data.frame(table[[1]]$rna))
-rna_r2_long <- unlist(data.frame(table[[2]]$rna))
-rna_r3_long <- unlist(data.frame(table[[3]]$rna))
+# Extract estimated RNA levels
+rna_r1_sim <- data.frame(table[[1]]$rna) # 547 rows
+rna_r2_sim <- data.frame(table[[2]]$rna) # 307 rows
+rna_r3_sim <- data.frame(table[[3]]$rna) # 307 rows
 
-# Add new columns
-rna_r1_minus <- data.frame(cbind(rna_r1_long, lag(rep(rna_r1_long), n=7), 
-                                 rep("r1", length(rna_r1_long)))) 
-rna_r1_minus[, 1:2] <- lapply(rna_r1_minus[, 1:2], FUN = function(y){as.numeric(y)})
+# Add time lag columns
+rna_r1_lag <- sapply(1:ncol(rna_r1_sim), function(i) lag(rna_r1_sim[[i]], n=7)) %>%
+  c()
+rna_r2_lag <- sapply(1:ncol(rna_r2_sim), function(i) lag(rna_r2_sim[[i]], n=7)) %>%
+  c()
+rna_r3_lag <- sapply(1:ncol(rna_r3_sim), function(i) lag(rna_r3_sim[[i]], n=7)) %>%
+  c()
 
-rna_r2_minus <- data.frame(cbind(rna_r2_long, lag(rep(rna_r2_long), n=7), 
-                                 rep("r2", length(rna_r2_long)))) 
-rna_r2_minus[, 1:2] <- lapply(rna_r2_minus[, 1:2], FUN = function(y){as.numeric(y)})
+# Pivot long
+rna_r1_sim <- unlist(rna_r1_sim, use.names = FALSE)
+rna_r2_sim <- unlist(rna_r2_sim, use.names = FALSE)
+rna_r3_sim <- unlist(rna_r3_sim, use.names = FALSE)
 
-rna_r3_minus <- data.frame(cbind(rna_r3_long, lag(rep(rna_r3_long), n=7), 
-                                 rep("r3", length(rna_r3_long)))) 
-rna_r3_minus[, 1:2] <- lapply(rna_r3_minus[, 1:2], FUN = function(y){as.numeric(y)})
-
-# Make a dataframe of values from real wastewater data
-data <- read.csv("./Data/Linked Data.csv")
-population <- read.csv("/Users/FM/Public/HDS/Summer Project/wastewater_r_estimation/Population Over Time.csv")
-max_pop <- population %>%
-  group_by(region) %>%
-  summarise(max_pop = max(catchment_population_ons_mid_2019))
-
-# Normalise to population 100k to match with simulations
-rna_real_norm <- data %>%
-  merge(max_pop, by='region')
-rna_real_norm$gcpd_norm <- rna_real_norm$gene_copies_per_day/rna_real_norm$max_pop*100000
-
-# Prepare data with RNA levels 7 days prior
-rna_pre <- rna_real_norm %>%
-  group_by(region) %>%
-  mutate(lag_gc = lag(gcpd_norm, n = 7)) %>%
-  select(gcpd_norm, lag_gc, region) %>%
+# Bind colunms, remove NA and convert to numeric
+rna_r1_sim <- data.frame(cbind(rna_r1_sim, rna_r1_lag, rep("r1", length(rna_r1_sim)))) %>%
   drop_na()
+rna_r1_sim[, 1:2] <- lapply(rna_r1_sim[, 1:2], FUN = function(y){as.numeric(y)})
+rna_r2_sim <- data.frame(cbind(rna_r2_sim, rna_r2_lag, rep("r2", length(rna_r2_sim)))) %>%
+  drop_na()
+rna_r2_sim[, 1:2] <- lapply(rna_r2_sim[, 1:2], FUN = function(y){as.numeric(y)})
+rna_r3_sim <- data.frame(cbind(rna_r3_sim, rna_r3_lag, rep("r3", length(rna_r3_sim)))) %>%
+  drop_na()
+rna_r3_sim[, 1:2] <- lapply(rna_r3_sim[, 1:2], FUN = function(y){as.numeric(y)})
+
+### Make a dataframe of values from real wastewater data
+weighted <- read.csv("./data/all_var (before interpolation).csv")
+
+# Normalise population to 100k to match with simulations
+weighted$norm_gc <- weighted$weighted_avg_sars_cov2*400*100000
+
+# Add column for t-7 days
+rna_pre <- weighted %>%
+  group_by(region) %>%
+  mutate(lag_gc = lag(norm_gc, n = 7)) %>%
+  select(norm_gc, lag_gc, region) 
 
 # Change column names for joining
-colnames(rna_r1_minus)=colnames(rna_r2_minus)=colnames(rna_r3_minus)=colnames(rna_pre) <- 
+colnames(rna_r1_sim)=colnames(rna_r2_sim)=colnames(rna_r3_sim)=colnames(rna_pre) <- 
   c("rna_t", "rna_t_minus_7", "group")
 
-
-
 # Plot
-ggplot(data=rna_r1_minus, aes(x=rna_t, y=rna_t_minus_7)) +
-  geom_point(color='green') +
-  labs(title= "Wastewater RNA Level of SARS-CoV-2 at Time(t) & Time(t-7), beta = 0.15") +
-  xlab("RNA level at Time t") +
-  ylab("RNA level at Time (t-7)")
+r1 <- ggplot(data=rna_r1_sim, aes(x=rna_t, y=rna_t_minus_7)) +
+  geom_point(color='green', size=1) +
+  labs(title= "\u03b2 = 0.15") +
+  xlab("RNA Level on Day t (gc/day)") +
+  ylab("RNA Level on Day t-7 (gc/day)") +
+  theme(legend.text=element_text(size=8)) +
+  scale_x_continuous(limits=c(0,2e14),
+                     breaks=seq(0,2e14,1e14)) +
+  scale_y_continuous(limits=c(0,2e14))
 
-ggplot(data=rna_r2_minus, aes(x=rna_t, y=rna_t_minus_7)) +
-  geom_point(color='yellow') +
-  labs(title= "Wastewater RNA Level of SARS-CoV-2 at Time(t) & Time(t-7), beta = 0.2") +
-  xlab("RNA level at Time t") +
-  ylab("RNA level at Time (t-7)")
-  # geom_point(data = rna_pre, color = "red", shape=18) 
+r2 <- ggplot(data=rna_r2_sim, aes(x=rna_t, y=rna_t_minus_7)) +
+  geom_point(color='yellow', size=1) +
+  labs(title= "\u03b2 = 0.2") +
+  xlab("RNA Level on Day t (gc/day)") +
+  ylab("RNA Level on Day t-7 (gc/day)") +
+  theme(legend.text=element_text(size=8)) +
+  scale_x_continuous(limits=c(0,2e14),
+                     breaks=seq(0,2e14,1e14)) +
+  scale_y_continuous(limits=c(0,2e14))
 
-ggplot(data=rna_r3_minus, aes(x=rna_t, y=rna_t_minus_7)) +
-  geom_point(color='blue') +
-  labs(title= "Wastewater RNA Level of SARS-CoV-2 at Time(t) & Time(t-7), beta = 0.3") +
-  xlab("RNA level at Time t") +
-  ylab("RNA level at Time (t-7)")
+r3 <- ggplot(data=rna_r3_sim, aes(x=rna_t, y=rna_t_minus_7)) +
+  geom_point(color='blue', size=1) +
+  labs(title= "\u03b2 = 0.3") +
+  xlab("RNA Level on Day t (gc/day)") +
+  ylab("RNA Level on Day t-7 (gc/day)") +
+  theme(legend.text=element_text(size=8)) +
+  scale_x_continuous(limits=c(0,2e14),
+                     breaks=seq(0,2e14,1e14))
 
+# Show three graphs horizontally
+r1 + r2 + r3
+ggsave("plots/Betas combined.png", width = 8, height = 3, units = "in")
+
+# Plot real data
 ggplot(data=rna_pre, aes(x=rna_t, y=rna_t_minus_7, color=group)) +
   geom_point() +
-  labs(title= "Wastewater RNA Level of SARS-CoV-2 at Time(t) & Time(t-7)") +
-  xlab("RNA level at Time t") +
-  ylab("RNA level at Time (t-7)")
-
+  labs(title= "SARS-CoV-2 RNA in Wastewater - Regional Data") +
+  xlab("RNA Level on Day t (gc/day)") +
+  ylab("RNA Level on Day t-7 (gc/day)") 
 
 # Join all dataframes
-rna_minus <- rbind(rna_r1_minus, rna_r2_minus, rna_r3_minus, rna_pre) %>%
-  drop_na()
+sim_plot <- rbind(rna_r1_sim, rna_r2_sim, rna_r3_sim) %>%
+  drop_na() 
 
-ggplot(data=rna_minus, aes(x=rna_t, y=rna_t_minus_7, color=group)) +
-  geom_point() +
-  geom_point(data = rna_pre, aes(x=rna_t, y=rna_t_minus_7)) +
-  labs(title= "Wastewater RNA Level of SARS-CoV-2 at Time(t) & Time(t-7)") +
-  xlab("RNA level at Time t") +
-  ylab("RNA level at Time (t-7)")
-  # scale_x_continuous(trans=scales::pseudo_log_trans(base = 10)) +
-  # scale_y_continuous(trans=scales::pseudo_log_trans(base = 10))
+g <- ggplot() +
+  geom_point(data=sim_plot, aes(x=rna_t, y=rna_t_minus_7, alpha=0.2,
+                                shape=group)) +
+  geom_point(data = rna_pre, aes(x=rna_t, y=rna_t_minus_7, color=group, alpha=1)) +
+  labs(title= "SARS-CoV-2 RNA in Wastewater - Simulations and Regional Data") +
+  xlab("RNA Level on Day t (gc/day)") +
+  ylab("RNA Level on Day t-7 (gc/day)") +
+  labs(colour="Regions", shape="\u03b2 for Simulation") +
+  scale_shape(labels = c("0.15","0.2","0.3")) +
+  coord_cartesian(ylim = c(0, 2e13), xlim = c(0, 2e13)) 
+g + guides(alpha='none') 
+
+# Export plot and results
+ggsave("plots/Compartmental combined.png", width = 8, height = 4.5, units = "in")
+
+# Export simulation results
+write_csv(table, "SEIR simulations.csv")
+write_csv(sim_plot, "SEIR plot combined.csv")
