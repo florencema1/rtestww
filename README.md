@@ -7,6 +7,6 @@ Datasets:
 
 Code for:
 1. Data wrangling and linkage
-2. Modified [Compartmental Model] from McMahan et al. (https://github.com/scwatson812/COVID19WastewaterModel) 
-3. Modified [Deconvolution Model] from Huisman et al. (https://github.com/JSHuisman/wastewaterRe) 
-4. Modified [Boosting Method] from Morvan et al. (https://github.com/kath-o-reilly/wbe_prevalence_england_python) 
+2. Modified [Compartmental Model](https://github.com/scwatson812/COVID19WastewaterModel) from McMahan et al. 
+3. Modified [Deconvolution Model](https://github.com/JSHuisman/wastewaterRe) from Huisman et al. 
+4. Modified [Boosting Method](https://github.com/kath-o-reilly/wbe_prevalence_england_python) from Morvan et al. 
