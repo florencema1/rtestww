@@ -138,9 +138,9 @@ colnames(rna_r1_sim)=colnames(rna_r2_sim)=colnames(rna_r3_sim)=colnames(rna_pre)
 
 # Plot
 r1 <- ggplot(data=rna_r1_sim, aes(x=rna_t, y=rna_t_minus_7)) +
-  geom_point(color='green', size=1) +
+  geom_point(color='cadetblue2', size=1) +
   labs(title= "\u03b2 = 0.15") +
-  xlab("RNA Level on Day t (gc/day)") +
+  xlab(NULL) +
   ylab("RNA Level on Day t-7 (gc/day)") +
   theme(legend.text=element_text(size=8)) +
   scale_x_continuous(limits=c(0,2e14),
@@ -148,23 +148,24 @@ r1 <- ggplot(data=rna_r1_sim, aes(x=rna_t, y=rna_t_minus_7)) +
   scale_y_continuous(limits=c(0,2e14))
 
 r2 <- ggplot(data=rna_r2_sim, aes(x=rna_t, y=rna_t_minus_7)) +
-  geom_point(color='yellow', size=1) +
+  geom_point(color='cadetblue3', size=1) +
   labs(title= "\u03b2 = 0.2") +
   xlab("RNA Level on Day t (gc/day)") +
-  ylab("RNA Level on Day t-7 (gc/day)") +
+  ylab(NULL) +
   theme(legend.text=element_text(size=8)) +
   scale_x_continuous(limits=c(0,2e14),
                      breaks=seq(0,2e14,1e14)) +
   scale_y_continuous(limits=c(0,2e14))
 
 r3 <- ggplot(data=rna_r3_sim, aes(x=rna_t, y=rna_t_minus_7)) +
-  geom_point(color='blue', size=1) +
+  geom_point(color='cadetblue4', size=1) +
   labs(title= "\u03b2 = 0.3") +
-  xlab("RNA Level on Day t (gc/day)") +
-  ylab("RNA Level on Day t-7 (gc/day)") +
+  xlab(NULL) +
+  ylab(NULL) +
   theme(legend.text=element_text(size=8)) +
   scale_x_continuous(limits=c(0,2e14),
-                     breaks=seq(0,2e14,1e14))
+                     breaks=seq(0,2e14,1e14)) +
+  scale_y_continuous(limits=c(0,2e14))
 
 # Show three graphs horizontally
 r1 + r2 + r3

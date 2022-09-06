@@ -42,60 +42,57 @@ raw <- arrange(mutate(raw,
 
 
 # Weighted and interpolated VS actual RNA levels
-g <- ggplot() + 
-  geom_line(data, mapping = aes(x=date, y=weighted_avg_sars_cov2,
-                                color='Interpolated')) +
-  geom_line(data, mapping = aes(x=date, y=rna_7d_avg,
-                                color='7-day Average')) +
+ggplot() + 
   geom_point(raw, mapping = aes(x=date, y=sars_cov2_gc_l_mean), 
-             colour="grey70", shape=1, size=0.1, alpha=0.5) +
+             colour="grey70", shape=1, size=0.1) +
+  geom_line(data, mapping = aes(x=date, y=weighted_avg_sars_cov2,
+                                color='cadetblue3')) +
+  geom_line(data, mapping = aes(x=date, y=rna_7d_avg,
+                                color='tomato')) +
   facet_wrap(~region,scales="free") +
-  scale_color_manual(labels = c("7-day Average", "Interpolated"), 
-                     values = c("tomato", "dodgerblue")) +
+  scale_color_manual(labels = c("Interpolated", "7-day average"), 
+                     values = c("cadetblue3", "tomato")) +
   labs(title="SARS-CoV-2 RNA Concentration - Weighted Average",
        x="Date (2020-2021)", 
        y="RNA Concentration (gc/l)",
        color="Legend") +
   coord_cartesian(ylim = c(0,5e5))
-g + guides(alpha='none')
 
 # Export plot
-ggsave("plots/RNA over time.png", width = 8, height = 5, units = "in")
+ggsave("plots/RNA over time.png", width = 8, height = 5.5, units = "in")
 
 # Incidence over time
 ggplot(case) + 
-  geom_line(aes(x=date, y=newCasesBySpecimenDate, color='blue')) +
-  geom_line(aes(x=date, y=cases_7d_avg, color='red')) + 
+  geom_line(aes(x=date, y=newCasesBySpecimenDate, color='chartreuse3')) +
+  geom_line(aes(x=date, y=cases_7d_avg, color='tomato')) + 
   facet_wrap(~region,scales="free") +
   labs(title = "Incidence of SARS-CoV-2", 
        x = "Date (2020-2021)", 
        y = "New Cases by Specimen Date", 
        color = "Legend") +
   scale_color_manual(labels = c("Actual case no.", "7-day average"), 
-                     values = c("dodgerblue", "tomato")) +
-  coord_cartesian(ylim = c(0,16000), xlim = c(as.Date("2020-09-04"),as.Date("2021-02-10")))
+                     values = c("chartreuse3", "tomato")) +
+  coord_cartesian(ylim = c(0,21000), xlim = c(as.Date("2020-09-04"),as.Date("2021-02-10")))
 
 # Export plot 
-ggsave("plots/Incidence over time.png", width = 8, height = 5, units = "in")
+ggsave("plots/Incidence over time.png", width = 8, height = 5.5, units = "in")
 
 # Rt over time
-g <- ggplot(r, aes(x=date, y=avg_r_avg)) + 
-  geom_line() + 
-  geom_ribbon(aes(x=date, 
+g <- ggplot(data) + 
+  geom_line(colour="mediumorchid", aes(x=date, y=avg_r_avg)) + 
+  geom_ribbon(fill="mediumorchid", aes(x=date, 
                   ymin = avg_r_lower,
                   ymax = avg_r_upper, 
-                  fill = NULL,
                   alpha = 0.3)) +
   geom_hline(yintercept=1, linetype="dashed") +
   facet_wrap(~region,scales="free") +
   labs(title="Effective Reproduction Number (Rt) - Weighted Average",
        x="Date (2020-2021)", y="Rt") +
-  coord_cartesian(ylim = c(0.6,1.67), xlim = c(as.Date("2020-09-04"),as.Date("2021-02-10"))) +
-  theme(legend.position = "none") 
-g + guides(alpha="none")
+  coord_cartesian(ylim = c(0.6,1.67), xlim = c(as.Date("2020-09-04"),as.Date("2021-02-10"))) 
+g + guides(fill="none", colour="none", alpha="none")
 
 # Export plot 
-ggsave("plots/Rt over time.png", width = 8, height = 5, units = "in")
+ggsave("plots/Rt over time.png", width = 8, height = 5.5, units = "in")
 
 
 # # Trial to combine RNA and incidence plots (2 axis scales)

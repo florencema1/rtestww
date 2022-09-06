@@ -72,12 +72,14 @@ ggplot(wd, aes(x=factor(region), y=norm_gc, fill=med_ngc)) +
   stat_summary(fun.data=custom_quantile, geom='boxplot') +
   labs(title='Normalised RNA Levels',
        x='Region',
-       y='RNA Level (gene copies per day)',
+       y='RNA Mass Rate (gene copies per day)',
        fill='Median') +
   scale_y_continuous(trans='log10') +
   theme(axis.text.x = element_text(angle = 20, hjust=1)) 
   
 ggsave("plots/Normalisation Deconvolution.png", width = 8, height = 4.5, units = "in")
+
+wd %>% group_by(region) %>% select(med_ngc) %>% unique()
 
 ############################################################
 ### Deconvolution and Re estimation for Wastewater data ####
@@ -98,7 +100,7 @@ for(row_i in 1:nrow(config_df)){
                                         incidence_var = config_df[row_i, 'incidence_var'],
                                         getCountParams(as.character(config_df[row_i, 'FirstGamma'])), 
                                         getCountParams(as.character(config_df[row_i, 'SecondGamma'])),
-                                        smooth_param = TRUE, n_boot = 50) 
+                                        smooth_param = TRUE, n_boot = 1000) 
   
   new_deconv_data <- new_deconv_data %>%
     mutate(incidence_var = config_df[row_i, 'incidence_var'])
@@ -197,7 +199,7 @@ for(row_i in 1:nrow(config_case)){
                                         incidence_var = config_case[row_i, 'incidence_var'],
                                         getCountParams(as.character(config_case[row_i, 'FirstGamma'])), 
                                         getCountParams(as.character(config_case[row_i, 'SecondGamma'])),
-                                        smooth_param = TRUE, n_boot = 50) 
+                                        smooth_param = TRUE, n_boot = 1000) 
   
   new_deconv_data <- new_deconv_data %>%
     mutate(incidence_var = config_df[row_i, 'incidence_var'])
@@ -261,16 +263,6 @@ write.csv(rmse_all, 'RMSE.csv')
 
 # Rt
 g <- ggplot() + 
-  geom_ribbon(data=Re_cases, 
-              aes(x=date, 
-                  ymin = median_R_lowHPD,
-                  ymax = median_R_highHPD, 
-                  alpha=0.4,
-                  color="Deconvolution\n(Case data)",
-                  fill="Deconvolution\n(Case data)")) +
-  geom_line(data=Re_cases, aes(x = date, y = median_R_mean, 
-                               color="Deconvolution\n(Case data)"), 
-            alpha = 1, size = 0.5, show.legend=F) +
   geom_ribbon(data=Re_ww, 
               aes(x=date, 
                   ymin = median_R_lowHPD,
@@ -278,24 +270,36 @@ g <- ggplot() +
                   alpha=0.4,
                   color="Deconvolution\n(Wastewater data)",
                   fill="Deconvolution\n(Wastewater data)")) +
+  geom_ribbon(data=Re_cases, 
+              aes(x=date, 
+                  ymin = median_R_lowHPD,
+                  ymax = median_R_highHPD, 
+                  alpha=0.4,
+                  color="Deconvolution\n(Case data)",
+                  fill="Deconvolution\n(Case data)")) +
   geom_line(data=Re_ww, aes(x = date, y = median_R_mean, 
                             color="Deconvolution\n(Wastewater data)"), 
+            alpha = 1, size = 0.5, show.legend=F) +
+  geom_line(data=Re_cases, aes(x = date, y = median_R_mean, 
+                               color="Deconvolution\n(Case data)"), 
             alpha = 1, size = 0.5, show.legend=F) +
   geom_ribbon(data=data, aes(x=date, 
                   ymin = avg_r_lower,
                   ymax = avg_r_upper, 
-                  color="Reported Rt",
-                  fill = "Reported Rt",
+                  color="Published Rt",
+                  fill = "Published Rt",
                   alpha = 0.4)) +
-  geom_line(data=r, aes(x=date, y=avg_r_avg, color="Reported Rt")) +
+  geom_line(data=r, aes(x=date, y=avg_r_avg, color="Published Rt")) +
   geom_hline(yintercept=1, linetype='dashed') +
   facet_wrap(~region,scales="free") +
-  labs(title="Rt Estimates from Deconvolution Model and Reported Rt", 
+  labs(title="Rt Estimates from Deconvolution Model and Published Rt", 
        x="Date (2020-2021)", y="Rt", fill='Rt') +
+  scale_fill_manual(values = c("chartreuse3", "cadetblue3", "mediumorchid")) +
+  scale_color_manual(values = c("chartreuse3", "cadetblue3", "mediumorchid")) +
   coord_cartesian(ylim = c(0,3), xlim = c(as.Date("2020-09-04"),as.Date("2021-02-05"))) 
 g + guides(alpha="none", colour='none')
 
-ggsave("plots/Deconvolution R (All).png", width = 8, height = 4.5, units = "in")
+ggsave("plots/Deconvolution R (All).png", width = 8, height = 5.5, units = "in")
 
 g <- ggplot() + 
   geom_ribbon(data=Re_cases, 
@@ -311,18 +315,20 @@ g <- ggplot() +
   geom_ribbon(data=data, aes(x=date, 
                           ymin = avg_r_lower,
                           ymax = avg_r_upper, 
-                          color="Reported Rt",
-                          fill = "Reported Rt",
+                          color="Published Rt",
+                          fill = "Published Rt",
                           alpha = 0.4)) +
-  geom_line(data=r, aes(x=date, y=avg_r_avg, color="Reported Rt")) +
+  geom_line(data=r, aes(x=date, y=avg_r_avg, color="Published Rt")) +
   geom_hline(yintercept=1, linetype='dashed') +
   facet_wrap(~region,scales="free") +
-  labs(title="Rt Estimates from Deconvolution Model (Case Data) and Reported Rt", 
+  labs(title="Rt Estimates from Deconvolution Model (Case Data) and Published Rt", 
        x="Date (2020-2021)", y="Rt", fill='Rt') +
+  scale_fill_manual(values = c("chartreuse3", "mediumorchid")) +
+  scale_color_manual(values = c("chartreuse3", "mediumorchid")) +
   coord_cartesian(ylim = c(0.6,1.67), xlim = c(as.Date("2020-09-04"),as.Date("2021-02-05"))) 
 g + guides(alpha="none", colour='none')
 
-ggsave("plots/Deconvolution R (case vs report).png", width = 8, height = 4.5, units = "in")
+ggsave("plots/Deconvolution R (case vs report).png", width = 8, height = 5.5, units = "in")
 
 g <- ggplot() + 
   geom_ribbon(data=Re_cases, 
@@ -349,8 +355,10 @@ g <- ggplot() +
   facet_wrap(~region,scales="free") +
   labs(title="Rt Estimates from Deconvolution Model", 
        x="Date (2020-2021)", y="Rt", fill='Rt') +
+  scale_fill_manual(values = c("chartreuse3", "cadetblue3")) +
+  scale_color_manual(values = c("chartreuse3", "cadetblue3")) +
   coord_cartesian(ylim = c(0,3), xlim = c(as.Date("2020-09-04"),as.Date("2021-02-05")))
 g + guides(alpha="none", colour="none")
 
-ggsave("plots/Deconvolution R (ww vs case).png", width = 8, height = 4.5, units = "in")
+ggsave("plots/Deconvolution R (ww vs case).png", width = 8, height = 5.5, units = "in")
 
